@@ -120,7 +120,7 @@ router.get('/tables/:table/all', async (ctx) => {
     await db.destroyConnection(connection);
 
     ctx.body = results;
-    ctx.status = 200;
+    ctx.status = 404;
 });
 
 router.get('/tables/:table/:idField/:idValue', async (ctx) => {
@@ -234,6 +234,10 @@ router.get('/tables/update/:table/:idFieldsArray/:idOriginalValuesArray/:idNewVa
     let idValuesArray = ctx.params.idOriginalValuesArray.split(',');
     let idNewValuesArray = ctx.params.idNewValuesArray.split(',');
 
+    console.log(JSON.stringify(idFieldsArray, null, 2));
+    console.log(JSON.stringify(idValuesArray, null, 2));
+    console.log(JSON.stringify(idNewValuesArray, null, 2));
+
     // connect to database
     let connection = await db.createConnection();
 
@@ -251,6 +255,7 @@ router.get('/tables/update/:table/:idFieldsArray/:idOriginalValuesArray/:idNewVa
     let results = await new Promise((resolve) => {
         connection.query(sql, [table], (error, results) => {
             if (error) {
+                console.log(JSON.stringify(error, null, 2));
                 resolve(error);
             } else {
                 resolve(results);
@@ -297,5 +302,26 @@ router.get('/tables/delete/:table/:idField/:idValue', async (ctx) => {
     ctx.status = 200;
 });
 
+// login route
+
+router.post('/login', async (ctx) => {
+
+    // extract username and password from request body
+    let username = ctx.request.body.username;
+    let password = ctx.request.body.password;
+
+    if (!username || !password) {
+        ctx.status = 400;
+        ctx.body = { message: 'Username and password required' };
+        return;
+    }
+
+    if (username === 'admin' && password === 'admin') {
+        ctx.status = 200;
+        ctx.body = { message: 'Login successful' };
+        return;
+    }
+    
+});
 
 module.exports = router;

@@ -25,9 +25,7 @@ async function createConnection() {
             console.log('Error connecting to database');
             console.log(err);
             process.exit(1);
-        }
-        console.log('Connected to database');
-    }
+        }    }
     );
 
     return connection;
@@ -35,7 +33,6 @@ async function createConnection() {
 }
 
 async function destroyConnection(connection) {
-    console.log('Destroying database connection...');
     connection.end();
 }
 

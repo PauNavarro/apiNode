@@ -2,5 +2,8 @@
     "user" : "root",
     "password" : "",
     "host" : "localhost",
-    "dbName" : ""
+    "dbName" : "eurekabank",
+    "loginTable" : "usuario",
+    "usernameField" : "vch_emplusuario",
+    "passwordField" : "vch_emplclave"
 }
